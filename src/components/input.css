@@ -1,0 +1,45 @@
+
+  #p{
+    color: black;
+  }
+  #head
+  {
+    height: 75%;
+    width: 100%;
+    background-color: darkslategray;
+    margin: 16px auto;
+    padding-bottom: 30px;
+  }
+  #inp{
+    padding: 15px;
+    width: 50%;
+    margin: 20px auto;
+    margin-bottom: 20px;
+  
+  }
+  #btn1{
+    padding: 15px;
+    margin: 15px auto;
+    margin-left: 15px;
+    width: 7%;
+    background-color: floralwhite;
+    color: darkslategray;
+  }
+  .crossed-line {
+    text-decoration: line-through;
+  }
+  #body
+  {
+    width: 50%;
+      background:lightgray;
+      padding: 15px;
+      margin: 6px 0; 
+      font-size: large;
+      margin-left: 450px;
+  }
+  #i1,#i2,#i3{
+  float: right;
+  margin-left: 20px;
+  cursor: pointer;
+  }
+  
