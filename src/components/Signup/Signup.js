@@ -68,23 +68,26 @@ class SignUp extends Component
     {
         alert("Enter Credentials")
         this.setState({submit:false})
-        this.log=!this.log
+        //this.log=!this.log
         this.com=false
 
     }
 
-if(!localStorage.getItem(this.state.username) && this.com==true)
+else if(!localStorage.getItem(this.state.username) && this.com==true)
 {
     localStorage.setItem(this.state.username,JSON.stringify(this.state))
-    }
-    let user=localStorage.getItem(this.state.username)
-    if(this.state.password==user.password)
+}
+else{
+    let user=JSON.parse(localStorage.getItem(this.state.username))
+    if(this.state.password!==user.password)
     {
             alert("Wrong Password!Please give correct credentials")
             this.setState({submit:false})
     }
     else
         this.log=!this.log
+    }
+    this.setState({username:this.state.username})
 }
     HandleChange(event)
     {
