@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import Input from './components/input'
-import Signup from './components/Signup/Signup'
+
 //  import {Route, Switch,withRouter} from 'react-router-dom'
 //  import {Redirect} from 'react-router-dom'
 import './App.css';
+import SignUp from './components/Signup/Signup';
 
 class App extends Component {
   render()
@@ -17,7 +17,7 @@ class App extends Component {
 
   return (
     <div className="App">
-      <Signup/>
+      <SignUp/>
       </div>
   );
   }

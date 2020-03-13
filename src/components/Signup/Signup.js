@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 // import {Redirect} from 'react-router-dom'
  import Input from '../input'
+ import './Signup.css'
 class SignUp extends Component
 {
    
-    submit=false
+    log=false
+    com=true
     constructor(props) {
         super(props);
         this.state={
@@ -62,10 +64,27 @@ class SignUp extends Component
      
 // //              console.log( this.documentData)
     this.setState({submit:true});     
-if(!localStorage.getItem(this.state.username))
+    if(this.state.username=="" || this.state.password=="")
+    {
+        alert("Enter Credentials")
+        this.setState({submit:false})
+        this.log=!this.log
+        this.com=false
+
+    }
+
+if(!localStorage.getItem(this.state.username) && this.com==true)
 {
     localStorage.setItem(this.state.username,JSON.stringify(this.state))
     }
+    let user=localStorage.getItem(this.state.username)
+    if(this.state.password==user.password)
+    {
+            alert("Wrong Password!Please give correct credentials")
+            this.setState({submit:false})
+    }
+    else
+        this.log=!this.log
 }
     HandleChange(event)
     {
@@ -79,12 +98,16 @@ if(!localStorage.getItem(this.state.username))
     {
         return(
             <div>
-                
-                <input type="text" placeholder="username" onChange={(event)=>this.HandleChange(event)}/>
-                <input type="password" placeholder="password" onChange={(event)=>this.HandlePassword(event)}/>
+                <h1 className={this.log?"hide":"show"}>SignIn</h1>
+                <div className='show'> <button className={this.log?"show":"hide"} onClick={()=>{this.log=!this.log;this.setState({username:this.state.username,submit:false})}}>Signout</button></div>
+                 <div className={this.log?"hide":"show"}>
+                <input id="ip1" type="text" placeholder="username" onChange={(event)=>this.HandleChange(event)}/><br></br>
+                <input id="ip2" type="password" placeholder="password" onChange={(event)=>this.HandlePassword(event)}/><br></br>
                 <button onClick={this.HandleSubmit}>signup</button>
+                </div>
                 {this.state.submit?
                  <Input username={this.state.username}/>:null}
+                
             </div>
         )
     }

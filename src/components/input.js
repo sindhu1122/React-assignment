@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 //mport Timepicker from 'react-time-picker'
+import Table from '../components/table/table'
 import { TimePickerComponent } from '@syncfusion/ej2-react-calendars';
  import DatePicker from 'react-datepicker';
  import 'react-datepicker/dist/react-datepicker.css';
-import Signup from './Signup/Signup'
+
 //import moment from 'moment'
 import './input.css'
 class Input extends Component{
     state={
         task:'',
         taskList:[],
-        starttime:"10:00",
-        endtime:"10:00",
+        starttime:"12:00",
+        endtime:"11:00",
         date:new Date()
       };
       onChange = event => 
@@ -96,33 +97,47 @@ class Input extends Component{
         return(
             <div>
                 <input type="text" id="inp" placeholder="Enter activity" onChange={(event)=>this.inputChangeHandler(event.target.value)}/><br></br>
-                <label>Enter start time</label>
+                <label>Enter start time:</label>
                   <TimePickerComponent
+                  id="time2"
                 onChange={this.onChange}
-                value={this.state.starttime}> </TimePickerComponent><br></br> 
+                value={this.state.starttime}> </TimePickerComponent>&nbsp;&nbsp;
                 {/* <input type="time"
                 onChange={this.onChange}
                 value={this.state.starttime}/><br></br> */}
-                <label>Enter end time</label>
-                <TimePickerComponent
+                <label>Enter end time:</label>
+                <TimePickerComponent id="time1"
                 onChange={this.onChangeEnd}
-                value={this.state.starttime}/>
+                value={this.state.starttime}/><br></br>
                 {/* <input type="time"
                 onChange={this.onChangeEnd}
                 value={this.state.endtime}/><br></br> */}
                 <label>Enter date</label>
-                <DatePicker dateFormat='dd-MM-yyyy' selected={this.state.date} value={this.state.date} onChange={this.handleChangedate} /><br/><br/> 
+                <DatePicker id="date" dateFormat='dd-MM-yyyy' selected={this.state.date} value={this.state.date} onChange={this.handleChangedate} /><br/><br/> 
                 <button id="btn1"
                 type="submit"
                 onClick={()=> this.btnAddHandler(this.state.task,this.state.starttime,this.state.endtime)} >Add</button>
-                <ul>
+              <table>
+              <tr>
+                        <th>Date</th>
+                        <th>Task</th>
+                        <th>Duration</th>
+                </tr>
               {user1.today.map((item,key)=>{
                 return item.tasks.map((item1,key)=>{
-                return <li> <strong>Date:</strong>{item.date[key]}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <strong>Task</strong>:{item1}&nbsp;&nbsp;&nbsp;  <strong>duration</strong>:{item.startTime[key]}</li>})
+                return <tr>
+                     <td>{item.date[key]}</td> 
+                     <td>{item1}</td>
+                     <td>{item.startTime[key]}</td></tr>
+                    {/* /</tr>/<th>Date</th>:{item.date[key]}  <strong>Task</strong>:{item1}&nbsp;&nbsp;&nbsp;  <strong>duration</strong>:{item.startTime[key]} */}
+              
+               
+              })
                 
                 }
               )}
-              </ul>
+              </table>
+            
             </div>
         )
     }
