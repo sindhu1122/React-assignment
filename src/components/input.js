@@ -4,16 +4,22 @@ import Table from '../components/table/table'
 import { TimePickerComponent } from '@syncfusion/ej2-react-calendars';
  import DatePicker from 'react-datepicker';
  import 'react-datepicker/dist/react-datepicker.css';
-
-//import moment from 'moment'
+import SideDraw from '../components/sideDrawer/sideDrawer'
+import moment from 'moment'
 import './input.css'
+import SideDrawer from './sideDrawer/sideDrawer'
+import Toolar from './Toolar/Toolar'
+import Lackdrop from './ackdrop/ackdrop'
+import DrawerToggle from './sideDrawer/DrawerToggle/DrawerToggle'
+import Report from './Report/Report';
 class Input extends Component{
     state={
         task:'',
         taskList:[],
         starttime:"12:00",
         endtime:"11:00",
-        date:new Date()
+        date:new Date(),
+        sidedraweropen:false
       };
       onChange = event => 
       {
@@ -37,6 +43,16 @@ class Input extends Component{
             task: input
           });
       }
+      drawerHandler = () => {
+        this.setState((prevState)=>{
+          return{sidedraweropen:!prevState.sidedraweropen}
+        });
+      }
+    
+      backdropHandler = () => {
+        this.setState({sidedraweropen:false});
+      }
+
       handleChangedate=date=>
       {
         this.setState({date:date})
@@ -73,29 +89,38 @@ class Input extends Component{
       console.log(lenOfTasks)
       //i=lenOfTasks
        while(i<lenOfTasks){
-      //   if(day!=this.user.today[i].date)
-         i++;
-      //   else
-      //   {
-      //     isPresent=1;
-      //     break;
-      //   }
+       i++
        }
+     
       
-       this.user.today[i-1].date.push(this.state.date);
+       this.user.today[i-1].date.push(moment( this.state.date).format('L'));
        this.user.today[i-1].startTime.push((this.state.endtime-this.state.starttime)/60000)
        this.user.today[i-1].endTime.push(this.state.endtime)
        this.user.today[i-1].tasks.push(this.state.task)
      localStorage.setItem(this.props.username,JSON.stringify(this.user))
       
-
+  
       }
     render()
     {
+      let sidedrawer;
+      let backdrop;
+  
+      if(this.state.sidedraweropen)
+      {
+        sidedrawer=<SideDrawer/>
+        backdrop=<Lackdrop click={this.backdropHandler}/>
+      }
       let user1=JSON.parse(localStorage.getItem(this.props.username))
       console.log(this.user)
         return(
-            <div>
+          
+              <div>
+                <div>
+          <Toolar drawerClicked={this.drawerHandler} username={this.props.username}/>
+            {sidedrawer}
+            {backdrop}
+          </div>
                 <input type="text" id="inp" placeholder="Enter activity" onChange={(event)=>this.inputChangeHandler(event.target.value)}/><br></br>
                 <label>Enter start time:</label>
                   <TimePickerComponent
@@ -137,8 +162,9 @@ class Input extends Component{
                 }
               )}
               </table>
-            
+              {/* <Report username={this.props.username}/> */}
             </div>
+            
         )
     }
 }

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import {Redirect} from 'react-router-dom'
  import Input from '../input'
  import './Signup.css'
+ import Report from '../Report/Report'
 class SignUp extends Component
 {
    
@@ -102,7 +103,7 @@ else{
         return(
             <div>
                 <h1 className={this.log?"hide":"show"}>SignIn</h1>
-                <div className='show'> <button className={this.log?"show":"hide"} onClick={()=>{this.log=!this.log;this.setState({username:this.state.username,submit:false})}}>Signout</button></div>
+                {/* <div className='show'> <button className={this.log?"show":"hide"} onClick={()=>{this.log=!this.log;this.setState({username:this.state.username,submit:false})}}>Signout</button></div> */}
                  <div className={this.log?"hide":"show"}>
                 <input id="ip1" type="text" placeholder="username" onChange={(event)=>this.HandleChange(event)}/><br></br>
                 <input id="ip2" type="password" placeholder="password" onChange={(event)=>this.HandlePassword(event)}/><br></br>
@@ -110,8 +111,11 @@ else{
                 </div>
                 {this.state.submit?
                  <Input username={this.state.username}/>:null}
+                 {/* <div className="dis">*/}
+                 {/* <Report username={this.state.username}/> */}
+                 </div>
                 
-            </div>
+            
         )
     }
 }
