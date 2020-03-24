@@ -12,6 +12,7 @@ import Toolar from './Toolar/Toolar'
 import Lackdrop from './ackdrop/ackdrop'
 import DrawerToggle from './sideDrawer/DrawerToggle/DrawerToggle'
 import Report from './Report/Report';
+import Display from '../components/Display/Display'
 class Input extends Component{
     state={
         task:'',
@@ -19,7 +20,10 @@ class Input extends Component{
         starttime:"12:00",
         endtime:"11:00",
         date:new Date(),
-        sidedraweropen:false
+        sidedraweropen:false,
+        displayActivities: false,
+        activitydate:new Date(),
+        display:new Date()
       };
       onChange = event => 
       {
@@ -57,6 +61,37 @@ class Input extends Component{
       {
         this.setState({date:date})
       }
+      handleChangedateActivity=activitydate=>
+      {
+       // console.log(activitydate)
+        this.setState({activitydate:activitydate})
+        console.log(this.state)
+      }
+      onShowActivitiesHandler = () => {
+        this.setState({
+            displayActivities: !this.state.displayActivities
+        })
+      }
+      prevHadler=()=>{
+         let datevar=this.state.activitydate
+         datevar.setDate(datevar.getDate()-1)
+         console.log(datevar)
+         this.setState({activitydate:datevar})
+         let currdate=`${this.state.activitydate.getMonth() + 1}/${this.state.activitydate.getDate()}/${this.state.activitydate.getFullYear()}`
+         console.log(currdate)
+         this.setState({display: currdate})
+
+
+      }
+      nextHadler=()=>{
+        let datevar=this.state.activitydate
+        datevar.setDate(datevar.getDate()+1)
+        this.setState({activitydate:datevar})
+        let currdate=`${this.state.activitydate.getMonth() + 1}/${this.state.activitydate.getDate()}/${this.state.activitydate.getFullYear()}`
+        console.log(currdate)
+         this.setState({display: currdate})
+
+     }
       btnAddHandler = (inputTask,inputTime,endtime)=>{
        
         let item = {
@@ -94,34 +129,38 @@ class Input extends Component{
      
       
        this.user.today[i-1].date.push(moment( this.state.date).format('L'));
+       this.user.today[i-1].dur.push(this.state.starttime)
        this.user.today[i-1].startTime.push((this.state.endtime-this.state.starttime)/60000)
        this.user.today[i-1].endTime.push(this.state.endtime)
        this.user.today[i-1].tasks.push(this.state.task)
      localStorage.setItem(this.props.username,JSON.stringify(this.user))
+     this.setState({task:" "})
       
   
       }
     render()
     {
-      let sidedrawer;
-      let backdrop;
+      // let sidedrawer;
+      // let backdrop;
   
-      if(this.state.sidedraweropen)
-      {
-        sidedrawer=<SideDrawer/>
-        backdrop=<Lackdrop click={this.backdropHandler}/>
-      }
+      // if(this.state.sidedraweropen)
+      // {
+      //   sidedrawer=<SideDrawer/>
+      //   backdrop=<Lackdrop click={this.backdropHandler}/>
+      // }
       let user1=JSON.parse(localStorage.getItem(this.props.username))
       console.log(this.user)
         return(
-          
+            
               <div>
-                <div>
+              
+                {/* <div>
           <Toolar drawerClicked={this.drawerHandler} username={this.props.username}/>
             {sidedrawer}
             {backdrop}
-          </div>
-                <input type="text" id="inp" placeholder="Enter activity" onChange={(event)=>this.inputChangeHandler(event.target.value)}/><br></br>
+          </div> */}
+          <div className="ipdiv">
+                <input type="text" id="inp" placeholder="Enter activity"  value={this.state.task} onChange={(event)=>this.inputChangeHandler(event.target.value)}/><br></br>
                 <label>Enter start time:</label>
                   <TimePickerComponent
                   id="time2"
@@ -132,8 +171,9 @@ class Input extends Component{
                 value={this.state.starttime}/><br></br> */}
                 <label>Enter end time:</label>
                 <TimePickerComponent id="time1"
+                
                 onChange={this.onChangeEnd}
-                value={this.state.starttime}/><br></br>
+                value={this.state.endtime}/><br></br>
                 {/* <input type="time"
                 onChange={this.onChangeEnd}
                 value={this.state.endtime}/><br></br> */}
@@ -141,14 +181,29 @@ class Input extends Component{
                 <DatePicker id="date" dateFormat='dd-MM-yyyy' selected={this.state.date} value={this.state.date} onChange={this.handleChangedate} /><br/><br/> 
                 <button id="btn1"
                 type="submit"
-                onClick={()=> this.btnAddHandler(this.state.task,this.state.starttime,this.state.endtime)} >Add</button>
-              <table>
-              <tr>
-                        <th>Date</th>
+                onClick={()=> this.btnAddHandler(this.state.task,this.state.starttime,this.state.endtime)} >Add</button><br></br>
+                <button id="t1"
+                onClick={() => this.onShowActivitiesHandler()}>{!this.state.displayActivities ? 'Show Activities' : 'Close Activities'}</button>
+                </div>
+              {this.state.displayActivities ?
+              
+                <table>
+                <thead>
+                <tr height="15px">
+                  <td ><button onClick={()=>this.prevHadler()}>prev</button></td>
+                  <td colSpan="3"><DatePicker id="date" dateFormat='dd-MM-yyyy' selected={this.state.activitydate} value={this.state.activitydate} onChange={this.handleChangedateActivity} /><br/><br/> </td>
+                  <td><button onClick={()=>this.nextHadler()}>next</button></td>
+                </tr>
+                <tr>
+                        <th>S.no</th>
                         <th>Task</th>
+                        <th>Start Time</th>
+                        <th>End Time</th>
                         <th>Duration</th>
                 </tr>
-              {user1.today.map((item,key)=>{
+                
+                </thead>
+              {/* {user1.today.map((item,key)=>{
                 return item.tasks.map((item1,key)=>{
                 return <tr>
                      <td>{item.date[key]}</td> 
@@ -157,13 +212,15 @@ class Input extends Component{
                     {/* /</tr>/<th>Date</th>:{item.date[key]}  <strong>Task</strong>:{item1}&nbsp;&nbsp;&nbsp;  <strong>duration</strong>:{item.startTime[key]} */}
               
                
-              })
+              {/* })
                 
                 }
-              )}
-              </table>
+              )} */} 
+              <Display date={this.state.display} username={this.props.username}/>
+              </table>:null}
               {/* <Report username={this.props.username}/> */}
             </div>
+            
             
         )
     }

@@ -4,20 +4,33 @@
   }
   #head
   {
-    height: 75%;
+    height: 100%;
     width: 100%;
     background-color: darkslategray;
     margin: 16px auto;
-    padding-bottom: 30px;
   }
   #inp{
     padding: 15px;
     width: 50%;
     margin: 20px auto;
     margin-bottom: 20px;
+    /* margin-top: 100px; */
   
   }
-  #btn1{
+  .table-wrapper-scroll-y {
+    display: block;
+}
+#ipdiv{
+  text-align: center;
+    margin:20px auto;
+    width:40%;
+    height:300px;
+    box-shadow: 0 2px 3px #ccc;
+    border:1px solid #eee ;
+    padding: 20px;
+    box-sizing: border-box;
+}
+  #btn1,#t1{
     padding: 15px;
     margin: 15px auto;
     margin-left: 15px;

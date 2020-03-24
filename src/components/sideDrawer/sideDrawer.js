@@ -56,15 +56,69 @@
 // //     )
 // // }
 // // export default sideDrawer;
-import React from 'react';
-import './sideDrawer.css';
-const sidedrawer = props =>(
-   <nav className="side">
-       <ul>
-           <li><a href="input.js">Activity</a></li>
-           <li><a href="/">Report</a></li>
-       </ul>
-   </nav>
-);
+// import React from 'react';
+// import './sideDrawer.css';
+// import activities from '../input'
+// import { BrowserRouter as Router, Link,Switch, Route } from 'react-router-dom';
+// import Report from '../Report/Report';
+// const sidedrawer = props =>(
+//     <Router>
+//     <nav className="side">
+//         <ul>
+//             <Link to="/activities">Activities</Link>
+//              <Link to="/report">Report</Link>    
+//         </ul>
+        
+//     </nav>
+//    <Switch>
+//         {/* <Route path="/activities" component=/>  */}
+//      <Route path="/report" exact component={Report} />
+//      </Switch >
+    
+     
+//      </Router>
+// );
 
-export default sidedrawer;
+// export default sidedrawer;
+import React from "react";
+import { slide as Menu } from "react-burger-menu";
+import {
+    Switch,
+    Route,
+    Link
+  } from "react-router-dom";
+import Activities from '../input';
+import Reports from '../Report/Report';
+import './sideDrawer.css';
+
+class Sidebar extends React.Component {
+    render() {
+        return (
+            <div >
+                <div className="header">
+                <Menu >
+                    <Link to="/activities">Activities</Link>
+                    <Link to="/report">Report</Link>
+                </Menu>
+                
+                <label className="HelloUser"><h2>Hello {this.props.username}!!</h2></label>
+                 
+                <button  onClick={this.props.onLogout} style={{ backgroundColor:"white" ,color:"#282c34" }} className="LogoutBtn">LOGOUT</button> 
+                </div>
+                {/* <h1>Hello {this.props.name}</h1> */}
+                <div>
+                <Switch>
+                    <Route path="/activities">
+                        <Activities username={this.props.username}/>
+                    </Route>
+                    <Route path="/report">
+                        <Reports username={this.props.username} />
+                    </Route>
+                </Switch>
+                </div>
+            </div>
+
+        );
+    }
+};
+export default Sidebar

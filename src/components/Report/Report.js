@@ -25,29 +25,44 @@ class Report extends Component{
     {
         let user1=JSON.parse(localStorage.getItem(this.props.username))
         //let user1=JSON.parse(localStorage.getItem(this.props.username))
+        console.log(user1)
         var dateObj = new Date();
+        dateObj.setDate(dateObj.getDate()+1)
+        console.log(dateObj)
         var c=0;
-        var dur =0;
         let durlist=[]
         var datelist=[]
         var taskscou=[]
         for(let i=0;i<7;i++){
-            c=0
-            dateObj.setDate(dateObj.getDate-i)
-            user1.today.map((item,key)=>{
-                item.tasks.map((item1,key)=>{
-                if(moment(dateObj).format('L')==moment(item.date[key]).format('L'))
+            c=0;
+            let dur=0
+            dateObj.setDate(dateObj.getDate()-1)
+            console.log(moment( dateObj).format('L'))
+            user1.today[0].date.map((item,key)=>{
+                
+                    console.log(item)
+                if((moment(dateObj).format('L'))==moment(item).format('L')&&user1.today[0].startTime[key]!=null)
                 {
                         c++
-                        dur=dur+item.startTime[key]
+                        dur=dur+user1.today[0].startTime[key]
                 }
                     
-                })
-            })
-            datelist.push(dateObj)
-            taskscou.push(c)
-            durlist.push(dur)
-        }
+               if(!datelist.includes(moment( dateObj).format('L')))
+               {
+                datelist.push(moment( dateObj).format('L'))
+                taskscou.push(c)
+                durlist.push(dur)}
+                else{
+                    let h=datelist.indexOf(moment( dateObj).format('L'))
+                    taskscou[h]=c
+                    durlist[h]=dur
+                }
+                
+        })
+        console.log(datelist)
+        console.log(taskscou)
+        
+    }
         return(
             <div>
                 <table>

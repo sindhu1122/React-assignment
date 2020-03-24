@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 // import {Redirect} from 'react-router-dom'
  import Input from '../input'
  import './Signup.css'
+ import SideBar from '../sideDrawer/sideDrawer'
  import Report from '../Report/Report'
 class SignUp extends Component
 {
@@ -14,7 +15,7 @@ class SignUp extends Component
             username:'',
             password:'',
             today:[{
-                date:[],tasks:[],endTime:[],
+                date:[],tasks:[],endTime:[],dur:[],
             startTime:[]}],
             submit:false
         }
@@ -98,10 +99,20 @@ else{
     {
         this.setState({password:event.target.value})
     }
+    handleLogout = (e) => {
+        // this.props.history.goBack();
+        this.log=!this.log;
+        this.setState({username:this.state.username,submit:false})
+    }
     render()
     {
         return(
             <div>
+                {this.state.submit?
+                <div className="SignUp">
+                 <SideBar username={this.state.username} onLogout={this.handleLogout}/>
+                 </div>:
+                <div>
                 <h1 className={this.log?"hide":"show"}>SignIn</h1>
                 {/* <div className='show'> <button className={this.log?"show":"hide"} onClick={()=>{this.log=!this.log;this.setState({username:this.state.username,submit:false})}}>Signout</button></div> */}
                  <div className={this.log?"hide":"show"}>
@@ -109,11 +120,9 @@ else{
                 <input id="ip2" type="password" placeholder="password" onChange={(event)=>this.HandlePassword(event)}/><br></br>
                 <button onClick={this.HandleSubmit}>signup</button>
                 </div>
-                {this.state.submit?
-                 <Input username={this.state.username}/>:null}
-                 {/* <div className="dis">*/}
-                 {/* <Report username={this.state.username}/> */}
-                 </div>
+                </div>}
+            </div>
+                
                 
             
         )
